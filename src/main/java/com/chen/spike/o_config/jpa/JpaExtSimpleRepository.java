@@ -1,6 +1,6 @@
 package com.chen.spike.o_config.jpa;
 
-import com.chen.spike.toolkits.ReflectUtils;
+import com.chen.spike.o_toolkits.ReflectUtils;
 import org.springframework.data.jpa.provider.PersistenceProvider;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
