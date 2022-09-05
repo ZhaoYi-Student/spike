@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,8 +15,9 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Entity
 @Table(name = "user")
-public class User {
+public class User{
 
     /**
      * 用户主键
@@ -54,7 +56,6 @@ public class User {
      */
     @Column(name = "user_password", nullable = false)
     private String userPassword;
-
     /**
      * 创建人
      */

@@ -1,5 +1,6 @@
 package com.chen.spike.o_annotation;
 
+import com.chen.spike.o_config.jpa.JpaExtRepositoryFactoryBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -19,7 +20,7 @@ public @interface PackageScan {
 
     @AliasFor(
             annotation = EntityScan.class,
-            attribute =  "basePackages"
+            attribute = "basePackages"
     )
     String[] entity();
 
@@ -28,5 +29,11 @@ public @interface PackageScan {
             attribute = "basePackages"
     )
     String[] jpa();
+
+    @AliasFor(
+            annotation = EnableJpaRepositories.class,
+            attribute = "repositoryFactoryBeanClass"
+    )
+    Class<?> jpaRepositoryBean() default JpaExtRepositoryFactoryBean.class;
 
 }
