@@ -1,13 +1,16 @@
 package com.chen.spike.o_config.security;
 
+import com.chen.spike.c_service.UserDetailsServiceImpl;
+import com.chen.spike.o_common.ResponseEntity;
 import com.chen.spike.o_filter.AuthenticationRequestFilter;
+import com.chen.spike.o_toolkits.ResponseUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,14 +31,22 @@ public class SecurityConfig implements ApplicationContextAware {
         // @formatter:off
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .antMatchers("/**").permitAll()
+                        .antMatchers("/authentication", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf().disable()
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .userDetailsService(applicationContext.getBean(UserDetailsServiceImpl.class))
                 .addFilterBefore(
                         applicationContext.getBean(AuthenticationRequestFilter.class),
                         UsernamePasswordAuthenticationFilter.class
+                )
+                .exceptionHandling().authenticationEntryPoint(
+                        (request, response, authException)
+                                -> ResponseUtil.writeResponse(
+                                request, response,
+                                ResponseEntity.fail(authException.getMessage())
+                        )
                 )
         ;
         // @formatter:on

@@ -20,6 +20,7 @@ public class UserServiceImpl {
     public void register(User user) {
         AssertUtil.isNotEmpty(user.getUserId(), "user id is must be null !");
         log.info("encode password for user : {}", user.getUserName());
+        checkExist(user);
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
         userRepository.save(user);
     }
